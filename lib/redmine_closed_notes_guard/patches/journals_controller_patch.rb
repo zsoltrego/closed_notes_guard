@@ -1,0 +1,36 @@
+# frozen_string_literal: true
+
+module RedmineClosedNotesGuard
+  module Patches
+    module JournalsControllerPatch
+      def self.included(base)
+        base.class_eval do
+          alias_method :update_without_rcng, :update
+          alias_method :update, :update_with_rcng
+        end
+      end
+
+      def update_with_rcng
+        journal = Journal.find(params[:id])
+        issue = journal.journalized.is_a?(Issue) ? journal.journalized : nil
+
+        if issue&.closed? && params.dig(:journal, :notes).present?
+          blocked_ids = Array(Setting.plugin_redmine_closed_notes_guard['blocked_role_ids']).map(&:to_i)
+          user_role_ids = User.current.roles_for_project(issue.project).map(&:id)
+
+          if blocked_ids.any? && (user_role_ids & blocked_ids).any?
+            flash[:error] = l(:rcng_error_closed_issue_notes_forbidden)
+            return redirect_back(fallback_location: issue_path(issue), status: 303)
+          end
+        end
+
+        update_without_rcng
+      end
+    end
+  end
+end
+
+# JournalsController may not be loaded in some setups until needed
+if defined?(JournalsController) && !JournalsController.included_modules.include?(RedmineClosedNotesGuard::Patches::JournalsControllerPatch)
+  JournalsController.include RedmineClosedNotesGuard::Patches::JournalsControllerPatch
+end
