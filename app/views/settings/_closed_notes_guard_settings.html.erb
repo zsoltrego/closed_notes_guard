@@ -1,0 +1,15 @@
+<p>
+  <label><%= l(:rcng_setting_blocked_roles) %></label><br>
+
+  <% roles = Role.sorted.to_a %>
+  <% selected = Array(@settings['blocked_role_ids']).map(&:to_i) %>
+
+  <%= hidden_field_tag 'settings[blocked_role_ids][]', '' %>
+
+  <%= select_tag 'settings[blocked_role_ids][]',
+        options_from_collection_for_select(roles, 'id', 'name', selected),
+        multiple: true, size: [roles.size, 12].min %>
+
+  <br>
+  <em><%= l(:rcng_setting_hint) %></em>
+</p>
