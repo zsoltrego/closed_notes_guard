@@ -17,8 +17,8 @@ $ touch tmp/restart.txt
 
 ### Test
 
-1. Log in with a normal user.
-2. Find a test ticket where a user with the Reporter role is also involved.
+1. Login with a standard user.
+2. Create a test ticket and write some notes.
 3. Close the ticket.
-4. Check your user account to see if you can write notes.
-5. It also adds a settings interface where you can configure it.
+4. Check the ticket to see if you can write notes.
+5. Open the settings interface where you can configure it.
