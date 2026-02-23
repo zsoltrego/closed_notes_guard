@@ -1,7 +1,7 @@
 # Installation
 
 ## Compatibility
-Redmine 6.0.x - 6.1.x
+Redmine 6.1.x
 
 ### If installation dir "/var/lib/redmine" with Passenger:
 
