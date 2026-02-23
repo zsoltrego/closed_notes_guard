@@ -15,7 +15,8 @@ module RedmineClosedNotesGuard
         issue = journal.journalized.is_a?(Issue) ? journal.journalized : nil
 
         if issue&.closed? && params.dig(:journal, :notes).present?
-          blocked_ids = Array(Setting.plugin_redmine_closed_notes_guard['blocked_role_ids']).map(&:to_i)
+          plugin_settings = Setting.plugin_redmine_closed_notes_guard || {}
+          blocked_ids = Array(plugin_settings['blocked_role_ids']).reject(&:blank?).map(&:to_i)
           user_role_ids = User.current.roles_for_project(issue.project).map(&:id)
 
           if blocked_ids.any? && (user_role_ids & blocked_ids).any?
