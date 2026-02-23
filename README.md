@@ -21,4 +21,4 @@ $ touch tmp/restart.txt
 2. Create a test ticket and write some notes.
 3. Close the ticket.
 4. Check the ticket to see if you can write notes.
-5. Open the settings interface where you can configure it.
+5. For settings open Admin → Plugins → Closed Notes Guard → Configure.
