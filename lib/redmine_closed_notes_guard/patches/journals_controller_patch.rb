@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require_dependency 'journals_controller'
 
 module RedmineClosedNotesGuard
   module Patches
@@ -20,8 +21,20 @@ module RedmineClosedNotesGuard
           user_role_ids = User.current.roles_for_project(issue.project).map(&:id)
 
           if blocked_ids.any? && (user_role_ids & blocked_ids).any?
-            render plain: l(:rcng_error_closed_issue_notes_forbidden), status: 403
-            return
+            msg = l(:rcng_error_closed_issue_notes_forbidden)
+
+            respond_to do |format|
+              format.html do
+                flash[:error] = msg
+                return redirect_to(issue_path(issue))
+              end
+              format.js do
+                return render plain: msg, status: 403
+              end
+              format.any do
+                return head :forbidden
+              end
+            end
           end
         end
 
@@ -31,7 +44,6 @@ module RedmineClosedNotesGuard
   end
 end
 
-# JournalsController may not be loaded in some setups until needed
-if defined?(JournalsController) && !JournalsController.included_modules.include?(RedmineClosedNotesGuard::Patches::JournalsControllerPatch)
+unless JournalsController.included_modules.include?(RedmineClosedNotesGuard::Patches::JournalsControllerPatch)
   JournalsController.include RedmineClosedNotesGuard::Patches::JournalsControllerPatch
 end
