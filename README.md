@@ -1,13 +1,13 @@
 # Installation
 
 ## Compatibility
-Redmine 6.1.x
+Redmine 6.x
 
 ### If installation dir "/var/lib/redmine" with Passenger:
 
 ```sh
 $ cd /var/lib/redmine/plugins
-$ git clone https://github.com/zsoltrego/redmine_closed_notes_guard.git
+$ git clone https://github.com/zsoltrego/closed_notes_guard.git
 $ cd ..
 $ bundle config set --local without 'development test'
 $ bundle install
