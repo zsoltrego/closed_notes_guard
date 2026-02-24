@@ -47,5 +47,3 @@ end
 unless IssuesController.included_modules.include?(RedmineClosedNotesGuard::Patches::IssuesControllerPatch)
   IssuesController.include RedmineClosedNotesGuard::Patches::IssuesControllerPatch
 end
-
-return update_without_rcng
