@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_dependency 'issues_controller'
 
-module RedmineClosedNotesGuard
+module ClosedNotesGuard
   module Patches
     module IssuesControllerPatch
       def self.included(base)
@@ -44,6 +44,6 @@ module RedmineClosedNotesGuard
   end
 end
 
-unless IssuesController.included_modules.include?(RedmineClosedNotesGuard::Patches::IssuesControllerPatch)
-  IssuesController.include RedmineClosedNotesGuard::Patches::IssuesControllerPatch
+unless IssuesController.included_modules.include?(ClosedNotesGuard::Patches::IssuesControllerPatch)
+  IssuesController.include ClosedNotesGuard::Patches::IssuesControllerPatch
 end
