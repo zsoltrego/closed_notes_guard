@@ -70,9 +70,10 @@ touch tmp/restart.txt
 
 ## Eltávolítás
 
-Plugin könyvtár törlése és Redmine restart.
+Migráció visszavonása, plugin könyvtár törlése és Redmine restart.
 
 ```sh
+bundle exec rake redmine:plugins:migrate NAME=closed_notes_guard VERSION=0 RAILS_ENV=production
 rm -rf plugins/closed_notes_guard
 touch tmp/restart.txt
 ```
